@@ -2,14 +2,14 @@
 locals {
   example_data = csvdecode(file("data/example_orders.csv"))
 }
-resource "random_orders" "table_name" {
+resource "random_pet" "table_name" {
   prefix    = "orders"
   separator = "_"
   length    = 4
 }
 
 resource "aws_dynamodb_table" "basic-dynamodb-table" {
-  name           = random_orders.table_name.id
+  name           = random_pet.table_name.id
   billing_mode   = "PROVISIONED"
   read_capacity  = 10
   write_capacity = 10
@@ -35,7 +35,7 @@ resource "aws_dynamodb_table" "basic-dynamodb-table" {
 resource "aws_dynamodb_table_item" "example" {
   for_each = var.load_example_data ? { for row in local.example_data : row.eventId => row } : {}
 
-  table_name = random_orders.table_name.id
+  table_name = random_pet.table_name.id
   hash_key   = "SourceOrderID"
   range_key  = "SourceItemID"
 
