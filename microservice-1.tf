@@ -33,7 +33,7 @@ resource "aws_dynamodb_table" "basic-dynamodb-table" {
 }
 
 resource "aws_dynamodb_table_item" "example" {
-  for_each = var.load_example_data ? { for row in local.example_data : row.eventId => row } : {}
+  for_each = var.load_example_data ? { for row in local.example_data : row.SourceOrderID => row } : {}
 
   table_name = random_pet.table_name.id
   hash_key   = "SourceOrderID"
